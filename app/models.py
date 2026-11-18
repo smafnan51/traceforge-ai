@@ -1,14 +1,22 @@
 from datetime import datetime, timezone
-from sqlalchemy import DateTime, Float, Integer, JSON, String, Text, Index
+
+from sqlalchemy import DateTime, Float, Index, Integer, JSON, String, Text, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
+
 from app.database import Base
 
-def utcnow():
+
+def utcnow() -> datetime:
     return datetime.now(timezone.utc)
+
 
 class Trace(Base):
     __tablename__ = "traces"
-    __table_args__ = (Index("ix_traces_created_at", "created_at"), Index("ix_traces_status", "status"))
+    __table_args__ = (
+        Index("ix_traces_created_at", "created_at"),
+        Index("ix_traces_status", "status"),
+    )
+
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     trace_id: Mapped[str] = mapped_column(String(64), unique=True, index=True)
     provider: Mapped[str] = mapped_column(String(80), default="mock")
@@ -24,16 +32,23 @@ class Trace(Base):
     metadata_json: Mapped[dict] = mapped_column("metadata", JSON, default=dict)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
+
 class PromptVersion(Base):
     __tablename__ = "prompt_versions"
+    __table_args__ = (
+        UniqueConstraint("name", "version", name="uq_prompt_name_version"),
+    )
+
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(120), index=True)
     version: Mapped[int] = mapped_column(Integer)
     template: Mapped[str] = mapped_column(Text)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
+
 class EvaluationRun(Base):
     __tablename__ = "evaluation_runs"
+
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(120))
     metric: Mapped[str] = mapped_column(String(40))
