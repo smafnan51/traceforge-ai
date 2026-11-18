@@ -1,0 +1,12 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: sqlite:///./traceforge.db
+      ENVIRONMENT: development
+    volumes:
+      - traceforge_data:/srv/traceforge
+volumes:
+  traceforge_data:
