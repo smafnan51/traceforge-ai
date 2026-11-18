@@ -21,9 +21,9 @@ LLM applications can fail in ways that ordinary application logs do not explain.
 - Deterministic demo data; no paid model API required.
 - OpenAPI documentation and containerized local setup.
 
-## Architecture
+## Architecture and beginner guide
 
-See [docs/architecture.md](docs/architecture.md).
+See [docs/architecture.md](docs/architecture.md) for the architecture and [docs/learning-path.md](docs/learning-path.md) for step-by-step setup, a code walkthrough, API examples, testing instructions and interview-safe project explanations. No React knowledge is required.
 
 ## Quick start
 
@@ -56,6 +56,8 @@ docker compose up --build
 
 ## Tests
 
+The API tests use an isolated in-memory SQLite database. The suite covers health, trace creation/retrieval, demo seeding, metrics, evaluation persistence and request validation.
+
 ```bash
 pip install -e '.[dev]'
 pytest
@@ -66,7 +68,7 @@ pytest
 - Cost estimates use a deliberately simple illustrative rate formula, not a live provider price feed.
 - `normalized_similarity` is lexical similarity, not embedding-based semantic similarity.
 - Evaluation currently runs in the API process; a Redis/Celery worker system is a planned extension.
-- The initial API-key dependency is enforced only in production mode; add user-level authentication and authorization before multi-tenant use.
+- Write endpoints require an API key when `ENVIRONMENT=production`; configure a unique `API_KEY` before enabling production mode. This simple shared-key check is not user authentication or multi-tenant authorization.
 - No frontend is included in this initial backend-focused release.
 
 ## Roadmap
