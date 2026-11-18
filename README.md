@@ -23,7 +23,7 @@ LLM applications can fail in ways that ordinary application logs do not explain.
 
 ## Architecture and beginner guide
 
-See [docs/architecture.md](docs/architecture.md) for the architecture and [docs/learning-path.md](docs/learning-path.md) for step-by-step setup, a code walkthrough, API examples, testing instructions and interview-safe project explanations. No React knowledge is required.
+See [docs/architecture.md](docs/architecture.md) for the architecture and [docs/learning-path.md](docs/learning-path.md) for step-by-step setup and a code walkthrough, and [docs/interview-prep.md](docs/interview-prep.md) for honest interview questions and a live demo sequence. No React knowledge is required.
 
 ## Quick start
 
@@ -56,7 +56,7 @@ docker compose up --build
 
 ## Tests
 
-The API tests use an isolated in-memory SQLite database. The suite covers health, trace creation/retrieval, demo seeding, metrics, evaluation persistence and request validation.
+The API tests use an isolated in-memory SQLite database. The suite covers health, trace creation/retrieval, demo seeding, metrics, evaluation persistence, prompt versioning, production write protection and request validation.
 
 ```bash
 pip install -e '.[dev]'
